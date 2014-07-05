@@ -135,10 +135,17 @@ handlers:
   expiration: "15m"
 
 # glyphs restful service
-- url: /glyphs
+- url: /rest/.*
   script: main.application
 
-libraries:
-- name: webapp2
-  version: "2.5.1"
+# remote api
+- url: /remoteapi.*
+  script: google.appengine.ext.remote_api.handler.application
+  login: admin
 
+libraries:
+- name: django
+  version: "1.4"
+
+builtins:
+- remote_api: on
