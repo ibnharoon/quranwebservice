@@ -91,7 +91,7 @@ function refreshImageCache(thisPage, direction, rpages) {
     }
 }
 
-var pageController = function ($scope) {
+angular.module('quranApp').controller("pageController", function pageController($scope) {
     if ( $scope.pages == null ) {
         $scope.pages = pages;
     }
@@ -131,4 +131,4 @@ var pageController = function ($scope) {
     $scope.isCurrentPage = function (index) {
         return activePage === index;
     };
-};
+});

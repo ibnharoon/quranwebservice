@@ -119,6 +119,9 @@ RANGE_HEADER = "Range"
 BINARY_CONTENT_TYPE = "application/octet-stream"
 FORMDATA_CONTENT_TYPE = "multipart/form-data"
 ETAG_HEADER = "ETag"
+REQUEST_ORIGIN_HEADER = "Origin"
+CORS_ORIGIN_HEADER = "Access-Control-Allow-Origin"
+CORS_ALLOW_METHOD_HEADER = "Access-Control-Allow-Methods"
 
 JSON_TEXT_KEY = "#text"
 JSON_ATTR_PREFIX = "@"
@@ -694,6 +697,8 @@ class PropertyHandler(object):
     def value_to_response(self, dispatcher, prop_xml_name, value, path):
         """Writes the output of a single property to the dispatcher's
         response."""
+        if Dispatcher.enable_cors and dispatcher.origin is not None:
+            dispatcher.response.headers[CORS_ORIGIN_HEADER] = dispatcher.origin
         dispatcher.set_response_content_type(self.property_content_type)
         dispatcher.response.out.write(value)
 
@@ -1832,6 +1837,8 @@ class CachedResponse(object):
         self.accept = unicode(request.accept)
         if Dispatcher.enable_etags:
             self.etag = response.headers[ETAG_HEADER]
+        if Dispatcher.enable_cors:
+            dispatcher.origin = request.headers[REQUEST_ORIGIN_HEADER]
 
     def matches_request(self, request):
         """Checks if the given request acceptably matches the request which
@@ -1958,6 +1965,8 @@ class Dispatcher(webapp.RequestHandler):
     external_namespaces = HIDDEN_EXT_NAMESPACES
     enable_etags = False
     simple_json_lists = False
+    enable_cors = False
+    origin = None
 
     model_handlers = {}
 
@@ -2721,6 +2730,8 @@ class Dispatcher(webapp.RequestHandler):
                 str(blob_info.key()))
             content_type_preferred = blob_info.content_type
 
+        if Dispatcher.enable_cors and Dispatcher.origin is not None:
+            self.response.headers[CORS_ORIGIN_HEADER] = Dispatcher.origin
         self.set_response_content_type(BINARY_CONTENT_TYPE,
                                        content_type_preferred)
 
