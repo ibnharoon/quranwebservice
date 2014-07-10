@@ -1,15 +1,15 @@
 __author__ = 'bustamam'
 
 import rest
-from google.appengine.ext import webapp2
+import webapp2
 from google.appengine.ext import db
 
 class Glyph(db.Model):
-    glyphId = db.IntegerProperty(indexed=True)
-    pageNumber = db.IntegerProperty()
-    lineNumber = db.IntegerProperty()
-    suraNumber = db.IntegerProperty()
-    ayahNumber = db.IntegerProperty()
+    glyph_id = db.IntegerProperty()
+    page_number = db.IntegerProperty()
+    line_number = db.IntegerProperty()
+    sura_number = db.IntegerProperty()
+    ayah_number = db.IntegerProperty()
     position = db.IntegerProperty()
     min_x = db.IntegerProperty()
     max_x = db.IntegerProperty()

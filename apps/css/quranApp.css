@@ -1,0 +1,74 @@
+html {
+    font-family: sans-serif;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+body {
+    margin: 0;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+main,
+nav,
+section,
+summary {
+    display: block;
+}
+audio,
+canvas,
+progress,
+video {
+    display: inline-block;
+    vertical-align: baseline;
+}
+.next {
+    position: relative;
+    width: 48px;
+    height: 517px;
+    float: left;
+    display: block;
+    border: 1px solid;
+}
+.next > a,
+.next > span {
+    display: none;
+}
+.next:hover > a,
+.next > span {
+    display: block;
+}
+.previous {
+    position: relative;
+    width: 48px;
+    height: 517px;
+    float: left;
+    display: block;
+    border: 1px solid;
+}
+.previous > a,
+.previous > span {
+    display: none;
+}
+.previous:hover > a,
+.previous > span {
+    display: block;
+}
+.leaflet {
+    clear: both;
+    margin: 0 auto;
+    width: 416px;
+    height: 517px;
+    overflow: hidden;
+}
+.pcontent {
+    position: relative;
+    width: 320px;
+    height: 517px;
+    float: left;
+    border: 1px solid;
+}

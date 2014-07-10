@@ -6,37 +6,6 @@ var endPage = (currentPage <= maxPage) ? currentPage : currentPage + 2;
 var cacheSize = 6;
 var activePage = 2;
 
-/**
- * Image preloader
- */
-/*
- function preloader() {
- if (document.images) {
- var img1 = new Image();
- var img2 = new Image();
- var img3 = new Image();
-
- img1.src = "http://domain.tld/path/to/image-001.gif";
- img2.src = "http://domain.tld/path/to/image-002.gif";
- img3.src = "http://domain.tld/path/to/image-003.gif";
- }
- }
-
- function addLoadEvent(func) {
- var oldonload = window.onload;
- if (typeof window.onload != 'function') {
- window.onload = func;
- } else {
- window.onload = function() {
- if (oldonload) {
- oldonload();
- }
- func();
- }
- }
- }
- */
-
 var pages = [];
 
 // add pages from right to left
@@ -49,7 +18,7 @@ for (var i = currentPage - 3; i <= currentPage + 2; i++) {
 getGlyphs(currentPage);
 
 function getGlyphs(page) {
-    $.getJSON('http://quranwebservice.elasticbeanstalk.com/glyphs/320/findGlyphByPage/' + page)
+    $.getJSON('http://quranwebservice.appspot.com/rest/Glyph?feq_page_number=' + page)
         .done(function(json) {
             $.each(json, function(idx, val) {
                 $each(val, function(k, v) {

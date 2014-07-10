@@ -145,7 +145,13 @@ handlers:
 
 libraries:
 - name: django
-  version: "1.4"
+  version: latest
+
+- name: jinja2
+  version: latest
+
+- name: webapp2
+  version: latest
 
 builtins:
 - remote_api: on
