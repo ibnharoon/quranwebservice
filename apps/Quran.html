@@ -12,27 +12,28 @@
     <script src="js/lib/angular-animate.js"></script>
     <script src="js/lib/angular-touch.js"></script>
     <script src="js/quranApp.js"></script>
+    <script src="js/data/page.js"></script>
     <script src="js/controllers/pageController.js"></script>
 </head>
 
 <body ng-controller="pageController" ng-swipe-right="nextPage()" ng-swipe-left="prevPage()">
 
-<div class="leaflet">
+<div class="leaflet" ng-style="{ 'width' : (dimension.lnavwidth + dimension.width + dimension.rnavwidth + 6) + 'px', 'height' : dimension.height + 'px' }">
     <!-- previous is actually next page in RTL language -->
-    <div class="previous">
-        <a href="#" ng-click="nextPage()">
-            <span class="glyphicon glyphicon-chevron-left" style="font-size:48px;"></span>
+    <div class="previous" ng-style="{ 'width' : dimension.lnavwidth + 'px', 'height' : dimension.height + 'px' }">
+        <a href="#" ng-style="{ 'width' : dimension.lnavwidth, 'height' : dimension.height }" ng-click="nextPage()">
+            <span class="glyphicon glyphicon-chevron-left" ng-style="{ 'font-size' : dimension.lnavwidth + 'px', 'width' : dimension.lnavwidth, 'height' : dimension.height, 'padding' : (dimension.height/2) + 'px 0px'}"></span>
         </a>
     </div>
 
-    <div class="pcontent">
+    <div class="pcontent" ng-style="{'width' : dimension.width, 'height' : dimension.height }">
         <img ng-repeat="page in pages" ng-hide="!isCurrentPage($index)" ng-src="{{page.image}}"/>
     </div>
 
     <!-- next is actually previous page in RTL language -->
-    <div class="next">
+    <div class="next" ng-style="{ 'width' : dimension.rnavwidth, 'height' : dimension.height }">
         <a href="#" ng-click="prevPage()">
-            <span class="glyphicon glyphicon-chevron-right" style="font-size:48px;"></span>
+            <span class="glyphicon glyphicon-chevron-right" ng-style="{ 'font-size' : dimension.lnavwidth + 'px', 'width' : dimension.lnavwidth, 'height' : dimension.height, 'padding' : (dimension.height/2) + 'px 0px'}"></span>
         </a>
     </div>
 </div>

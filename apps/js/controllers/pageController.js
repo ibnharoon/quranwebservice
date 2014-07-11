@@ -5,32 +5,32 @@ var beginPage = (currentPage > 4) ? currentPage - 4 : 1;
 var endPage = (currentPage <= maxPage) ? currentPage : currentPage + 2;
 var cacheSize = 6;
 var activePage = 2;
-
+var resolution = 320;
 var pages = [];
 
 // add pages from right to left
 for (var i = currentPage - 3; i <= currentPage + 2; i++) {
     pages.unshift({
-        image: "images/pages_320/page" + ("000" + i).substr(-3, 3) + ".png"
+        image: "images/pages_" + resolution + "/page" + ("000" + i).substr(-3, 3) + ".png"
     });
 }
 
-getGlyphs(currentPage);
-
-function getGlyphs(page) {
-    $.getJSON('http://quranwebservice.appspot.com/rest/Glyph?feq_page_number=' + page)
-        .done(function(json) {
-            $.each(json, function(idx, val) {
-                $each(val, function(k, v) {
-                    console.log( "'" + k + "'='" + v + "'" );
-                });
-            });
-        })
-        .fail(function(jqxhr, textStatus, error) {
-            var err = textStatus + ", " + error;
-            console.log("Request Failed: " + err);
-        });
-}
+//getGlyphs(currentPage);
+//
+//function getGlyphs(page) {
+//    $.getJSON('http://quranwebservice.appspot.com/rest/Glyph?feq_page_number=' + page)
+//        .done(function(json) {
+//            $.each(json, function(idx, val) {
+//                $each(val, function(k, v) {
+//                    console.log( "'" + k + "'='" + v + "'" );
+//                });
+//            });
+//        })
+//        .fail(function(jqxhr, textStatus, error) {
+//            var err = textStatus + ", " + error;
+//            console.log("Request Failed: " + err);
+//        });
+//}
 
 function refreshImageCache(thisPage, direction, rpages) {
     var oldBeginPage = beginPage;
@@ -41,7 +41,7 @@ function refreshImageCache(thisPage, direction, rpages) {
         console.log("shifting left add to end page: " + endPage);
         if ( beginPage != oldBeginPage ) {
             pages.unshift({
-                image: "images/pages_320/page" + ("000" + endPage).substr(-3, 3) + ".png"
+                image: "images/pages_" + resolution + "/page" + ("000" + endPage).substr(-3, 3) + ".png"
             });
 
             pages.pop();
@@ -53,7 +53,7 @@ function refreshImageCache(thisPage, direction, rpages) {
             pages.shift();
 
             pages.push({
-                image: "images/pages_320/page" + ("000" + beginPage).substr(-3, 3) + ".png"
+                image: "images/pages_" + resolution + "/page" + ("000" + beginPage).substr(-3, 3) + ".png"
             });
             rpages = pages;
         }
@@ -61,6 +61,7 @@ function refreshImageCache(thisPage, direction, rpages) {
 }
 
 angular.module('quranApp').controller("pageController", function pageController($scope) {
+    $scope.dimension = getPageRes(resolution);
     if ( $scope.pages == null ) {
         $scope.pages = pages;
     }
