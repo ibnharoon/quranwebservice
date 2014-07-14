@@ -28,7 +28,7 @@
     </div>
 
     <div class="pcontent" ng-style="{'width' : dimension.width, 'height' : dimension.height }">
-        <img width="320" ng-repeat="page in pages" ng-hide="!isCurrentPage($index)" ng-src="page.image"/>
+        <img width="320" ng-repeat="page in pages" ng-hide="!isCurrentPage($index)" ng-src="{{page.image}}"/>
     </div>
 
     <!-- next is actually previous page in RTL language -->

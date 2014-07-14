@@ -3,7 +3,6 @@ version: 1
 runtime: python27
 api_version: 1
 threadsafe: true
-
 default_expiration: "30d"
 
 handlers:
@@ -67,9 +66,14 @@ handlers:
   expiration: "1h"
 
 - url: /apps/(.*\.(svg|svgz))
-  mime_type: images/svg+xml
+  mime_type: image/svg+xml
   static_files: apps/\1
   upload: apps/(.*\.(svg|svgz))
+
+#- url: /apps/images
+#  static_dir: apps/images
+#  http_headers:
+#    content-type: image/svg+xml
 
 - url: /apps/(.*\.swf)
   mime_type: application/x-shockwave-flash
