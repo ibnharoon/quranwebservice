@@ -11,7 +11,7 @@ var pages = [];
 // add pages from right to left
 for (var i = currentPage - 3; i <= currentPage + 2; i++) {
     pages.unshift({
-        image: "images/pages_" + resolution + "/page" + ("000" + i).substr(-3, 3) + ".png"
+        image: "images/page" + ("000" + i).substr(-3, 3) + ".svg"
     });
 }
 
@@ -41,7 +41,7 @@ function refreshImageCache(thisPage, direction, rpages) {
         console.log("shifting left add to end page: " + endPage);
         if ( beginPage != oldBeginPage ) {
             pages.unshift({
-                image: "images/pages_" + resolution + "/page" + ("000" + endPage).substr(-3, 3) + ".png"
+                image: "images/page" + ("000" + endPage).substr(-3, 3) + ".svg"
             });
 
             pages.pop();
@@ -53,15 +53,21 @@ function refreshImageCache(thisPage, direction, rpages) {
             pages.shift();
 
             pages.push({
-                image: "images/pages_" + resolution + "/page" + ("000" + beginPage).substr(-3, 3) + ".png"
+                image: "images/page" + ("000" + beginPage).substr(-3, 3) + ".svg"
             });
             rpages = pages;
         }
     }
 }
 
-angular.module('quranApp').controller("pageController", function pageController($scope) {
-    $scope.dimension = getPageRes(resolution);
+quranApp.controller("pageController", function pageController($scope) {
+    $scope.dimension = {
+        "width": 320,
+        "height": 517,
+        "lnavwidth" : 20,
+        "rnavwidth" : 20
+    };
+
     if ( $scope.pages == null ) {
         $scope.pages = pages;
     }
