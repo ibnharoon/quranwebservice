@@ -41,6 +41,12 @@ body {
     float: left;
     border: 1px solid;
 }
+.glyph {
+    display: none;
+}
+.glyph-group {
+    display: none;
+}
 
 @font-face {
     font-family: 'Glyphicons Halflings';
