@@ -1,62 +1,50 @@
 var minPage = 1;
 var maxPage = 604;
 var currentPage = 305;
-var beginPage = (currentPage > 4) ? currentPage - 4 : 1;
-var endPage = (currentPage <= maxPage) ? currentPage : currentPage + 2;
-var cacheSize = 6;
-var activePage = 2;
-var resolution = 320;
+var slidingWindowSize = 6;
+var activeWindowOffset = 2;
+var activeWindow = 2;
 var pages = [];
+var imagePerPage = 1;
 
 // add pages from right to left
-for (var i = currentPage - 3; i <= currentPage + 2; i++) {
-    pages.unshift({
-        image: "images/page" + ("000" + i).substr(-3, 3) + ".svg"
-    });
+for (var i = currentPage - activeWindowOffset - 1; i <= currentPage + activeWindowOffset; i++) {
+    for (var j = 0; j < imagePerPage; j++) {
+        console.log("adding page: " + (i+j));
+        pages.unshift({
+            pageNumber: (i + j),
+            image: "images/page" + ("000" + (i + j)).substr(-3, 3) + ".svg"
+        });
+    }
 }
 
-//getGlyphs(currentPage);
-//
-//function getGlyphs(page) {
-//    $.getJSON('http://quranwebservice.appspot.com/rest/Glyph?feq_page_number=' + page)
-//        .done(function(json) {
-//            $.each(json, function(idx, val) {
-//                $each(val, function(k, v) {
-//                    console.log( "'" + k + "'='" + v + "'" );
-//                });
-//            });
-//        })
-//        .fail(function(jqxhr, textStatus, error) {
-//            var err = textStatus + ", " + error;
-//            console.log("Request Failed: " + err);
-//        });
-//}
-
 function refreshImageCache(thisPage, direction, rpages) {
-    var oldBeginPage = beginPage;
-    var oldEndPage = endPage;
-    beginPage = (thisPage > 4) ? thisPage - 3 : 1;
-    endPage = (thisPage <= maxPage) ? thisPage : thisPage + 2;
+    beginPage = thisPage - ((slidingWindowSize - activeWindowOffset - 1) * imagePerPage);
+    endPage = thisPage + ((slidingWindowSize - activeWindowOffset) * imagePerPage);
+    for ( var k = 0; k < slidingWindowSize; k++ ) {
+        console.log("before paging " + direction + ": " + pages[k].pageNumber);
+    }
     if ( direction === "left" ) {
         console.log("shifting left add to end page: " + endPage);
-        if ( beginPage != oldBeginPage ) {
-            pages.unshift({
-                image: "images/page" + ("000" + endPage).substr(-3, 3) + ".svg"
-            });
+        pages.unshift({
+            pageNumber: endPage,
+            image: "images/page" + ("000" + endPage).substr(-3, 3) + ".svg"
+        });
 
-            pages.pop();
-            rpages = pages;
-        }
+        pages.pop();
+        rpages = pages;
     } else if ( direction === "right" ) {
         console.log("shifting right add to begin page: " + beginPage);
-        if (endPage != oldEndPage) {
-            pages.shift();
+        pages.shift();
 
-            pages.push({
-                image: "images/page" + ("000" + beginPage).substr(-3, 3) + ".svg"
-            });
-            rpages = pages;
-        }
+        pages.push({
+            pageNumber: beginPage,
+            image: "images/page" + ("000" + beginPage).substr(-3, 3) + ".svg"
+        });
+        rpages = pages;
+    }
+    for ( var k = 0; k < slidingWindowSize; k++ ) {
+        console.log("after paging " + direction + ": " + pages[k].pageNumber);
     }
 }
 
@@ -74,37 +62,49 @@ quranApp.controller("pageController", function pageController($scope) {
 
     $scope.prevPage = function () {
         $scope.direction = 'right';
-        if ( currentPage > minPage ) {
-            currentPage = currentPage - 1;
-        } else {
-            currentPage = minPage;
-            if ( activePage > 0 ) {
-                activePage = activePage - 1;
-            } else {
-                activePage = 0;
-            }
+        var oldCurrentPage = currentPage;
+        if ( (currentPage - imagePerPage) > (activeWindowOffset + 1) ) {
+            currentPage = currentPage - imagePerPage;
         }
-        console.log("Right button pressed, going to previous page: " + currentPage);
-        refreshImageCache(currentPage, $scope.direction, $scope.pages);
+
+        if ( oldCurrentPage == currentPage ) {
+            console.log("before update active window: " + activeWindow);
+            if ( activeWindow < slidingWindowSize - 1 ) {
+                activeWindow = activeWindow + imagePerPage;
+            } else {
+                activeWindow = slidingWindowSize - 1;
+            }
+            console.log("after update active window: " + activeWindow);
+        } else {
+            console.log("Right button pressed, going to previous new current page: " + currentPage + ", activeWindow: " + activeWindow);
+            refreshImageCache(currentPage, $scope.direction, $scope.pages);
+        }
     };
 
     $scope.nextPage = function () {
         $scope.direction = 'left';
-        if ( currentPage < maxPage ) {
-            currentPage = currentPage + 1;
-        } else {
-            currentPage = maxPage;
-            if ( activePage < cacheSize ) {
-                activePage = activePage + 1;
+        var oldCurrentPage = currentPage;
+        if ( (currentPage + imagePerPage) <= (maxPage - imagePerPage - 1) ) {
+            currentPage = currentPage + imagePerPage;
+        }
+
+        if ( oldCurrentPage == currentPage ) {
+            console.log("before update active window: " + activeWindow);
+            if (activeWindow > 0) {
+                activeWindow = activeWindow - imagePerPage;
             } else {
-                activePage = cacheSize - 1;
+                activeWindow = 0;
+            }
+            console.log("after update active window: " + activeWindow);
+        } else {
+            console.log("Left button pressed, going to next new current page: " + currentPage + ", activeWindow: " + activeWindow);
+            if (currentPage != oldCurrentPage) {
+                refreshImageCache(currentPage, $scope.direction, $scope.pages);
             }
         }
-        console.log("Left button pressed, going to next page: " + currentPage);
-        refreshImageCache(currentPage, $scope.direction, $scope.pages);
     };
 
     $scope.isCurrentPage = function (index) {
-        return activePage === index;
+        return activeWindow === index;
     };
 });
