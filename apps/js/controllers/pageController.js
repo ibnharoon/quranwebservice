@@ -49,12 +49,22 @@ function refreshImageCache(thisPage, direction, rpages) {
 }
 
 quranApp.controller("pageController", function pageController($scope) {
+    //$scope.imageDimension = 138240 * 223632;
     $scope.dimension = {
-        "width": 320,
-        "height": 517,
+        "width": 320 * 1.24,
+        "height": 518 * 1.24,
         "lnavwidth" : 40,
-        "rnavwidth" : 40
+        "rnavwidth" : 40,
+        "topoutline" : 40,
+        "bottomoutline" : 40
     };
+
+    if ( $(window).height() > (518 + 80) ) {
+        $scope.scalefactor = ($(window).height() - 80)/518;
+        $scope.dimension['height'] = $(window).height() - 80;
+        $scope.dimension['width'] = 320 * $scope.scalefactor;
+    }
+    console.log("width: " + $scope.dimension['width'] + ", height: " + $scope.dimension['height']);
 
     if ( $scope.pages == null ) {
         $scope.pages = pages;

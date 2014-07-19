@@ -10,11 +10,9 @@ body {
     position: relative;
     float: left;
     display: inline-block;
-    border: 1px solid;
 }
 .next > a {
     position: relative;
-    border: 1px solid;
     float: right;
     text-align: right;
 }
@@ -22,11 +20,9 @@ body {
     position: relative;
     float: left;
     display: inline-block;
-    border: 1px solid;
 }
 .previous > a {
     position: relative;
-    border: 1px solid;
     float: left;
     text-align: left;
 }
@@ -34,12 +30,10 @@ body {
     clear: both;
     margin: 0 auto;
     overflow: hidden;
-    border: 1px solid;
 }
 .pcontent {
     position: relative;
     float: left;
-    border: 1px solid;
 }
 .glyph {
     display: none;
@@ -48,10 +42,42 @@ body {
     display: none;
 }
 .right-navigation {
-    display: inline-block;
     background-image: url('/apps/images/book-edge-right.png');
+    float: right;
 }
 .middle-navigation {
-    display: inline-block;
     background-image: url('/apps/images/book-edge-middle.png');
+    float: left;
+}
+.top-bar {
+}
+.middle-bar {
+}
+.bottom-bar {
+}
+.top-outline {
+    background-image: url('/apps/images/top-outline.png');
+    float: left;
+}
+.bottom-outline {
+    background-image: url('/apps/images/bottom-outline.png');
+    float: left;
+}
+.top-left-corner {
+    float: left;
+    background-image: url('/apps/images/top-left-corner.png');
+}
+.top-right-corner {
+    background-image: url('/apps/images/top-right-corner.png');
+    background-repeat: no-repeat;
+    float: right;
+}
+.bottom-left-corner {
+    float: left;
+    background-image: url('/apps/images/bottom-left-corner.png');
+}
+.bottom-right-corner {
+    background-image: url('/apps/images/bottom-right-corner.png');
+    background-repeat: no-repeat;
+    float: right;
 }
