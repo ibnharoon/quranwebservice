@@ -52,8 +52,8 @@ quranApp.controller("pageController", function pageController($scope) {
     $scope.dimension = {
         "width": 320,
         "height": 517,
-        "lnavwidth" : 20,
-        "rnavwidth" : 20
+        "lnavwidth" : 40,
+        "rnavwidth" : 40
     };
 
     if ( $scope.pages == null ) {
