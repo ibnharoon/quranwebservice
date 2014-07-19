@@ -6,33 +6,12 @@ html {
 body {
     margin: 0;
 }
-.next {
-    position: relative;
-    float: left;
-    display: inline-block;
-}
-.next > a {
-    position: relative;
-    float: right;
-    text-align: right;
-}
-.previous {
-    position: relative;
-    float: left;
-    display: inline-block;
-}
-.previous > a {
-    position: relative;
-    float: left;
-    text-align: left;
-}
 .leaflet {
     clear: both;
     margin: 0 auto;
     overflow: hidden;
 }
 .pcontent {
-    position: relative;
     float: left;
 }
 .glyph {
@@ -44,14 +23,20 @@ body {
 .right-navigation {
     background-image: url('/apps/images/book-edge-right.png');
     float: right;
+    cursor: pointer;
 }
 .middle-navigation {
     background-image: url('/apps/images/book-edge-middle.png');
     float: left;
+    cursor: pointer;
 }
 .top-bar {
+    float: left;
 }
 .middle-bar {
+    clear: both;
+    margin: 0 auto;
+    overflow: hidden;
 }
 .bottom-bar {
 }

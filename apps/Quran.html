@@ -36,22 +36,14 @@
 
     <div class="middle-bar">
         <!-- previous is actually next page in RTL language -->
-        <div class="previous" ng-style="{ 'width' : dimension.lnavwidth, 'height' : dimension.height }">
-            <a href="#" ng-style="{ 'width' : dimension.lnavwidth, 'height' : dimension.height }" ng-click="nextPage()">
-                <span class="middle-navigation" ng-style="{ 'font-size' : dimension.lnavwidth, 'width' : dimension.lnavwidth, 'height' : dimension.height}"></span>
-            </a>
-        </div>
+        <div class="middle-navigation" ng-style="{ 'width' : dimension.lnavwidth, 'height' : dimension.height}" ng-click="nextPage()"></div>
 
         <div class="pcontent" ng-style="{'width' : dimension.width, 'height' : dimension.height }">
             <img ng-style="{ 'width' : dimension.width, 'height' : dimension.height}" ng-repeat="page in pages" ng-hide="!isCurrentPage($index)" ng-src="{{page.image}}"/>
         </div>
 
         <!-- next is actually previous page in RTL language -->
-        <div class="next" ng-style="{ 'width' : dimension.rnavwidth, 'height' : dimension.height }">
-            <a href="#" ng-click="prevPage()">
-                <span class="right-navigation" ng-style="{ 'font-size' : dimension.lnavwidth, 'width' : dimension.lnavwidth, 'height' : dimension.height}"></span>
-            </a>
-        </div>
+        <div class="right-navigation" ng-style="{ 'width' : dimension.rnavwidth, 'height' : dimension.height}" ng-click="prevPage()"></div>
     </div>
 
     <div class="bottom-bar">

@@ -51,8 +51,8 @@ function refreshImageCache(thisPage, direction, rpages) {
 quranApp.controller("pageController", function pageController($scope) {
     //$scope.imageDimension = 138240 * 223632;
     $scope.dimension = {
-        "width": 320 * 1.24,
-        "height": 518 * 1.24,
+        "width": 320,
+        "height": 518,
         "lnavwidth" : 40,
         "rnavwidth" : 40,
         "topoutline" : 40,
