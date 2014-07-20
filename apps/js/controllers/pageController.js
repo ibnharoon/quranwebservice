@@ -1,6 +1,6 @@
 var minPage = 1;
 var maxPage = 604;
-var currentPage = 305;
+var currentPage = 1;
 var slidingWindowSize = 6;
 var activeWindowOffset = 2;
 var activeWindow = 2;
@@ -8,7 +8,19 @@ var pages = [];
 var imagePerPage = 1;
 
 // add pages from right to left
-for (var i = currentPage - activeWindowOffset - 1; i <= currentPage + activeWindowOffset; i++) {
+if ( currentPage > (slidingWindowSize - activeWindowOffset) && currentPage < (maxPage - activeWindowOffset) ) {
+    startPage = currentPage - activeWindowOffset - 1;
+} else if ( currentPage <= (slidingWindowSize + activeWindowOffset) ) {
+    startPage = 1;
+    activeWindow = slidingWindowSize - currentPage;
+} else if ( currentPage >= (maxPage - activeWindowOffset) ) {
+    startPage = maxPage - slidingWindowSize + 1;
+    activeWindow = maxPage - currentPage;
+}
+endPage = startPage + slidingWindowSize - 1;
+console.log("current page: " + currentPage + ", active window: " + activeWindow + ", start page: " + startPage + ", endpage: " + endPage);
+
+for (var i = startPage; i <= endPage; i++) {
     for (var j = 0; j < imagePerPage; j++) {
         console.log("adding page: " + (i+j));
         pages.unshift({
@@ -19,8 +31,9 @@ for (var i = currentPage - activeWindowOffset - 1; i <= currentPage + activeWind
 }
 
 function refreshImageCache(thisPage, direction, rpages) {
+    console.log("this page: " + thisPage);
     beginPage = thisPage - ((slidingWindowSize - activeWindowOffset - 1) * imagePerPage);
-    endPage = thisPage + ((slidingWindowSize - activeWindowOffset) * imagePerPage);
+    endPage = thisPage + (activeWindowOffset * imagePerPage);
     for ( var k = 0; k < slidingWindowSize; k++ ) {
         console.log("before paging " + direction + ": " + pages[k].pageNumber);
     }
@@ -72,17 +85,21 @@ quranApp.controller("pageController", function pageController($scope) {
 
     $scope.prevPage = function () {
         $scope.direction = 'right';
-        var oldCurrentPage = currentPage;
-        if ( (currentPage - imagePerPage) > (activeWindowOffset + 1) ) {
+        console.log("current page: " + currentPage + ", active window: " + activeWindow);
+        var noRefresh = false;
+        if ( currentPage > 1 ) {
             currentPage = currentPage - imagePerPage;
+            if ( currentPage < (slidingWindowSize - activeWindowOffset) || (currentPage > (maxPage - activeWindowOffset - 1)) ) {
+                noRefresh = true;
+            }
+        } else {
+            return;
         }
 
-        if ( oldCurrentPage == currentPage ) {
+        if ( noRefresh ) {
             console.log("before update active window: " + activeWindow);
-            if ( activeWindow < slidingWindowSize - 1 ) {
+            if ( activeWindow < (slidingWindowSize - 1) ) {
                 activeWindow = activeWindow + imagePerPage;
-            } else {
-                activeWindow = slidingWindowSize - 1;
             }
             console.log("after update active window: " + activeWindow);
         } else {
@@ -93,14 +110,21 @@ quranApp.controller("pageController", function pageController($scope) {
 
     $scope.nextPage = function () {
         $scope.direction = 'left';
-        var oldCurrentPage = currentPage;
-        if ( (currentPage + imagePerPage) <= (maxPage - imagePerPage - 1) ) {
+        var noRefresh = false;
+        console.log("current page: " + currentPage + ", active window: " + activeWindow);
+        if ( currentPage < maxPage ) {
             currentPage = currentPage + imagePerPage;
+
+            if ( currentPage > (maxPage - activeWindowOffset) || currentPage < (slidingWindowSize - activeWindowOffset + 1)) {
+                noRefresh = true;
+            }
+        } else {
+            return;
         }
 
-        if ( oldCurrentPage == currentPage ) {
+        if ( noRefresh ) {
             console.log("before update active window: " + activeWindow);
-            if (activeWindow > 0) {
+            if (activeWindow > 0 ) {
                 activeWindow = activeWindow - imagePerPage;
             } else {
                 activeWindow = 0;
@@ -108,9 +132,7 @@ quranApp.controller("pageController", function pageController($scope) {
             console.log("after update active window: " + activeWindow);
         } else {
             console.log("Left button pressed, going to next new current page: " + currentPage + ", activeWindow: " + activeWindow);
-            if (currentPage != oldCurrentPage) {
-                refreshImageCache(currentPage, $scope.direction, $scope.pages);
-            }
+            refreshImageCache(currentPage, $scope.direction, $scope.pages);
         }
     };
 
