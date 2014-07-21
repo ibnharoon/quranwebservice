@@ -96,4 +96,7 @@ body {
     float: right;
 }
 .page-number {
+    display: block;
+    position: relative;
+    bottom: 10px;
 }
