@@ -19,46 +19,46 @@
 
 <body ng-controller="pageController" ng-swipe-right="nextPage()" ng-swipe-left="prevPage()">
 
-<div class="leaflet" ng-style="{ 'width' : (dimension.lnavwidth + dimension.width + dimension.rnavwidth), 'height' : (dimension.height + dimension.topoutline + dimension.bottomoutline) }">
+<div class="leaflet" ng-repeat="page in pages" ng-hide="!isCurrentPage($index)" ng-style="{ 'width' : (dimension.lnavwidth + dimension.width + dimension.rnavwidth), 'height' : (dimension.height + dimension.topoutline + dimension.bottomoutline) }">
     <div class="top-bar" ng-style="{ 'width' : (dimension.lnavwidth + dimension.width + dimension.rnavwidth), 'height' : dimension.lnavwidth }">
         <!-- top left corner -->
-        <div class="top-left-corner" ng-style="{ 'width' : dimension.lnavwidth, 'height' : dimension.lnavwidth }">
+        <div ng-class="currentPage % 2 ? 'top-left-corner-even' : 'top-left-corner-odd'" ng-style="{ 'width' : dimension.lnavwidth, 'height' : dimension.lnavwidth }">
         </div>
 
         <!-- top page outline -->
         <div class="top-outline" ng-style="{ 'width' : dimension.width, 'height' : dimension.bottomoutline}">
         </div>
 
-        <div class="top-right-corner" ng-style="{ 'width': dimension.rnavwidth, 'height' : dimension.rnavwidth }">
+        <div ng-class="currentPage % 2 ? 'top-right-corner-even' : 'top-right-corner-odd'" ng-style="{ 'width': dimension.rnavwidth, 'height' : dimension.rnavwidth }">
 
         </div>
     </div>
 
     <div class="middle-bar">
         <!-- previous is actually next page in RTL language -->
-        <div class="middle-navigation" ng-style="{ 'width' : dimension.lnavwidth, 'height' : dimension.height}" ng-click="nextPage()"></div>
+        <div ng-class="currentPage % 2 ? 'middle-navigation-even' : 'middle-navigation-odd'" ng-style="{ 'width' : dimension.lnavwidth, 'height' : dimension.height}" ng-click="nextPage()"></div>
 
         <div class="pcontent" ng-style="{'width' : dimension.width, 'height' : dimension.height }">
-            <img ng-style="{ 'width' : dimension.width, 'height' : dimension.height}" ng-repeat="page in pages" ng-hide="!isCurrentPage($index)" ng-src="{{page.image}}"/>
+            <img ng-style="{ 'width' : dimension.width, 'height' : dimension.height}" ng-src="{{page.image}}"/>
         </div>
 
         <!-- next is actually previous page in RTL language -->
-        <div class="right-navigation" ng-style="{ 'width' : dimension.rnavwidth, 'height' : dimension.height}" ng-click="prevPage()"></div>
+        <div ng-class="currentPage % 2 ? 'right-navigation-even' : 'right-navigation-odd'" ng-style="{ 'width' : dimension.rnavwidth, 'height' : dimension.height}" ng-click="prevPage()"></div>
     </div>
 
     <div class="bottom-bar">
         <!-- bottom left corner -->
-        <div class="bottom-left-corner" ng-style="{ 'width': dimension.lnavwidth, 'height' : dimension.lnavwidth }">
+        <div ng-class="currentPage % 2 ? 'bottom-left-corner-even' : 'bottom-left-corner-odd'" ng-style="{ 'width': dimension.lnavwidth, 'height' : dimension.lnavwidth }">
 
         </div>
 
         <!-- bottom page outline -->
         <div class="bottom-outline" ng-style="{ 'width' : dimension.width, 'height' : dimension.bottomoutline}">
-
+            <span class="page-number" ng-style="{'width' : dimension.width, 'height' : dimension.bottomoutline, 'padding' : '0 ' + (dimension.bottomoutline - dimension.bottomoutline/2) }">{{ currentPage }}</span>
         </div>
 
         <!-- bottom right corner -->
-        <div class="bottom-right-corner" ng-style="{ 'width': dimension.rnavwidth, 'height' : dimension.rnavwidth }">
+        <div ng-class="currentPage % 2 ? 'bottom-right-corner-even' : 'bottom-right-corner-odd'" ng-style="{ 'width': dimension.rnavwidth, 'height' : dimension.rnavwidth }">
 
         </div>
     </div>

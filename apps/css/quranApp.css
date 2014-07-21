@@ -20,13 +20,23 @@ body {
 .glyph-group {
     display: none;
 }
-.right-navigation {
-    background-image: url('/apps/images/book-edge-right.png');
+.right-navigation-odd {
+    background-image: url('/apps/images/book-edge-right-odd.png');
     float: right;
     cursor: pointer;
 }
-.middle-navigation {
-    background-image: url('/apps/images/book-edge-middle.png');
+.middle-navigation-odd {
+    background-image: url('/apps/images/book-edge-middle-odd.png');
+    float: left;
+    cursor: pointer;
+}
+.right-navigation-even {
+    background-image: url('/apps/images/book-edge-right-even.png');
+    float: right;
+    cursor: pointer;
+}
+.middle-navigation-even {
+    background-image: url('/apps/images/book-edge-middle-even.png');
     float: left;
     cursor: pointer;
 }
@@ -47,22 +57,43 @@ body {
 .bottom-outline {
     background-image: url('/apps/images/bottom-outline.png');
     float: left;
+    text-align: center;
 }
-.top-left-corner {
+.top-left-corner-odd {
     float: left;
-    background-image: url('/apps/images/top-left-corner.png');
+    background-image: url('/apps/images/top-left-corner-odd.png');
 }
-.top-right-corner {
-    background-image: url('/apps/images/top-right-corner.png');
+.top-left-corner-even {
+    float: left;
+    background-image: url('/apps/images/top-left-corner-even.png');
+}
+.top-right-corner-odd {
+    background-image: url('/apps/images/top-right-corner-odd.png');
     background-repeat: no-repeat;
     float: right;
 }
-.bottom-left-corner {
-    float: left;
-    background-image: url('/apps/images/bottom-left-corner.png');
-}
-.bottom-right-corner {
-    background-image: url('/apps/images/bottom-right-corner.png');
+.top-right-corner-even {
+    background-image: url('/apps/images/top-right-corner-even.png');
     background-repeat: no-repeat;
     float: right;
+}
+.bottom-left-corner-odd {
+    float: left;
+    background-image: url('/apps/images/bottom-left-corner-odd.png');
+}
+.bottom-left-corner-even {
+    float: left;
+    background-image: url('/apps/images/bottom-left-corner-even.png');
+}
+.bottom-right-corner-odd {
+    background-image: url('/apps/images/bottom-right-corner-odd.png');
+    background-repeat: no-repeat;
+    float: right;
+}
+.bottom-right-corner-even {
+    background-image: url('/apps/images/bottom-right-corner-even.png');
+    background-repeat: no-repeat;
+    float: right;
+}
+.page-number {
 }
