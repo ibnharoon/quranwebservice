@@ -17,7 +17,7 @@
     <script src="js/controllers/pageController.js"></script>
 </head>
 
-<body ng-controller="pageController" ng-swipe-right="nextPage()" ng-swipe-left="prevPage()">
+<body ng-controller="pageController">
 
 <div class="leaflet" ng-repeat="page in pages" ng-hide="!isCurrentPage($index)" ng-style="{ 'width' : (dimension.lnavwidth + dimension.width + dimension.rnavwidth), 'height' : (dimension.height + dimension.topoutline + dimension.bottomoutline) }">
     <div class="top-bar" ng-style="{ 'width' : (dimension.lnavwidth + dimension.width + dimension.rnavwidth), 'height' : dimension.lnavwidth }">
@@ -34,7 +34,7 @@
         </div>
     </div>
 
-    <div class="middle-bar">
+    <div class="middle-bar" ng-swipe-left="prevPage()" ng-swipe-right="nextPage()">
         <!-- previous is actually next page in RTL language -->
         <div ng-class="currentPage % 2 ? 'middle-navigation-even' : 'middle-navigation-odd'" ng-style="{ 'width' : dimension.lnavwidth, 'height' : dimension.height}" ng-click="nextPage()"></div>
 

@@ -1,2 +1,2 @@
-var quranApp = angular.module("quranApp", []);
+var quranApp = angular.module("quranApp", ['ngAnimate', 'ngTouch']);
 
