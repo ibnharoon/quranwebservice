@@ -19,9 +19,13 @@ quranApp.controller("pageController", function pageController($scope, surahData)
             $scope.updatePages();
         }
     });
+    var arNum = ['۰', '۱', '۲', '۳', '٤', '۵', '٦', '۷', '۸', '۹'];
     $scope.pageRange = [];
     for (var pN = minPage; pN <= maxPage; pN++) {
-        $scope.pageRange.push({ 'pageNumber': pN, 'pageIndex' : pN } );
+        var arPN = pN.toString().replace(/[0-9]/g, function(w){
+            return arNum[+w]
+        });
+        $scope.pageRange.push({ 'pageNumber': pN, 'arPageNumber' : arPN } );
     }
     console.log("number of pages: " + $scope.pageRange.length);
 

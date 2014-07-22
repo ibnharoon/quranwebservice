@@ -63,7 +63,7 @@
         <!-- bottom page outline -->
         <div class="bottom-outline" ng-style="{ 'width' : dimension.width, 'height' : dimension.bottomoutline}">
             <select class="surah-number-input" dir="rtl" ng-style="{'width' : dimension.width/3, 'height' : 15 }" ng-model="currentSurah.surahNumber" required ng-options='surah.surahNumber as surah.arabic for surah in surahs'></select>
-            <select class="page-number-input" dir="rtl" ng-style="{'width' : dimension.width/3, 'height' : 15 }" ng-model="currentPage" required ng-options='pN.pageNumber as pN.pageIndex for pN in pageRange'></select>
+            <select class="page-number-input" dir="rtl" ng-style="{'width' : dimension.width/3, 'height' : 15 }" ng-model="currentPage" required ng-options='pN.pageNumber as pN.arPageNumber for pN in pageRange'></select>
         </div>
 
         <!-- bottom right corner -->
