@@ -4,90 +4,26 @@ var slidingWindowSize = 6;
 var activeWindowOffset = 2;
 var imagePerPage = 1;
 
-/*
-// add pages from right to left
-if ( currentPage > (slidingWindowSize - activeWindowOffset) && currentPage < (maxPage - activeWindowOffset) ) {
-    startPage = currentPage - activeWindowOffset - 1;
-} else if ( currentPage <= (slidingWindowSize + activeWindowOffset) ) {
-    startPage = 1;
-    activeWindow = slidingWindowSize - currentPage;
-} else if ( currentPage >= (maxPage - activeWindowOffset) ) {
-    startPage = maxPage - slidingWindowSize + 1;
-    activeWindow = maxPage - currentPage;
-}
-endPage = startPage + slidingWindowSize - 1;
-console.log("current page: " + currentPage + ", active window: " + activeWindow + ", start page: " + startPage + ", endpage: " + endPage);
-
-for (var i = startPage; i <= endPage; i++) {
-    for (var j = 0; j < imagePerPage; j++) {
-        console.log("adding page: " + (i+j));
-        pages.unshift({
-            pageNumber: (i + j),
-            image: "images/page" + ("000" + (i + j)).substr(-3, 3) + ".svg"
-        });
-    }
-}
-
-function refreshImageCache(thisPage, direction, rpages) {
-    console.log("this page: " + thisPage);
-    beginPage = thisPage - ((slidingWindowSize - activeWindowOffset - 1) * imagePerPage);
-    endPage = thisPage + (activeWindowOffset * imagePerPage);
-    for ( var k = 0; k < slidingWindowSize; k++ ) {
-        console.log("before paging " + direction + ": " + pages[k].pageNumber);
-    }
-    if ( direction === "left" ) {
-        console.log("shifting left add to end page: " + endPage);
-        pages.unshift({
-            pageNumber: endPage,
-            image: "images/page" + ("000" + endPage).substr(-3, 3) + ".svg"
-        });
-
-        pages.pop();
-        rpages = pages;
-    } else if ( direction === "right" ) {
-        console.log("shifting right add to begin page: " + beginPage);
-        pages.shift();
-
-        pages.push({
-            pageNumber: beginPage,
-            image: "images/page" + ("000" + beginPage).substr(-3, 3) + ".svg"
-        });
-        rpages = pages;
-    }
-    for ( var k = 0; k < slidingWindowSize; k++ ) {
-        console.log("after paging " + direction + ": " + pages[k].pageNumber);
-    }
-}
-*/
-
-quranApp.controller("pageController", function pageController($scope) {
+quranApp.controller("pageController", function pageController($scope, surahData) {
     // image dimension 138240 x 223632;
     $scope.currentPage = 1;
+    $scope.surahName = 'al-fatihah';
+    $scope.juzNumber = 1;
     $scope.activeWindow = activeWindowOffset;
     $scope.pages = [];
-
-    // add pages from right to left
-    if ( $scope.currentPage > (slidingWindowSize - activeWindowOffset) && $scope.currentPage < (maxPage - activeWindowOffset) ) {
-        startPage = $scope.currentPage - activeWindowOffset - 1;
-    } else if ( $scope.currentPage <= (slidingWindowSize + activeWindowOffset) ) {
-        startPage = 1;
-        $scope.activeWindow = slidingWindowSize - $scope.currentPage;
-    } else if ( $scope.currentPage >= (maxPage - activeWindowOffset) ) {
-        startPage = maxPage - slidingWindowSize + 1;
-        $scope.activeWindow = maxPage - $scope.currentPage;
-    }
-    endPage = startPage + slidingWindowSize - 1;
-    console.log("current page: " + $scope.currentPage + ", active window: " + $scope.activeWindow + ", start page: " + startPage + ", endpage: " + endPage);
-
-    for (var i = startPage; i <= endPage; i++) {
-        for (var j = 0; j < imagePerPage; j++) {
-            console.log("adding page: " + (i+j));
-            $scope.pages.unshift({
-                pageNumber: (i + j),
-                image: "images/page" + ("000" + (i + j)).substr(-3, 3) + ".svg"
-            });
+    $scope.surahs = surahData;
+    $scope.currentSurah = {'surahNumber' : 1, 'arabic' : 'الفاتحة'};
+    $scope.$watch('currentPage', function(newValue, oldValue) {
+        console.log("old value: " + oldValue + ", new value: " + newValue);
+        if ( oldValue != newValue ) {
+            $scope.updatePages();
         }
+    });
+    $scope.pageRange = [];
+    for (var pN = minPage; pN <= maxPage; pN++) {
+        $scope.pageRange.push({ 'pageNumber': pN, 'pageIndex' : pN } );
     }
+    console.log("number of pages: " + $scope.pageRange.length);
 
     function refreshImageCache() {
         console.log("this page: " + $scope.currentPage);
@@ -190,4 +126,32 @@ quranApp.controller("pageController", function pageController($scope) {
     $scope.isCurrentPage = function (index) {
         return $scope.activeWindow === index;
     };
+
+    $scope.updatePages = function() {
+        console.log("updating pages");
+        // add pages from right to left
+        if ($scope.currentPage > (slidingWindowSize - activeWindowOffset) && $scope.currentPage < (maxPage - activeWindowOffset)) {
+            startPage = $scope.currentPage - activeWindowOffset - 1;
+        } else if ($scope.currentPage <= (slidingWindowSize + activeWindowOffset)) {
+            startPage = 1;
+            $scope.activeWindow = slidingWindowSize - $scope.currentPage;
+        } else if ($scope.currentPage >= (maxPage - activeWindowOffset)) {
+            startPage = maxPage - slidingWindowSize + 1;
+            $scope.activeWindow = maxPage - $scope.currentPage;
+        }
+        endPage = startPage + slidingWindowSize - 1;
+        console.log("current page: " + $scope.currentPage + ", active window: " + $scope.activeWindow + ", start page: " + startPage + ", endpage: " + endPage);
+
+        for (var i = startPage; i <= endPage; i++) {
+            for (var j = 0; j < imagePerPage; j++) {
+                console.log("adding page: " + (i + j));
+                $scope.pages.unshift({
+                    pageNumber: (i + j),
+                    image: "images/page" + ("000" + (i + j)).substr(-3, 3) + ".svg"
+                });
+            }
+        }
+    };
+
+    $scope.updatePages();
 });

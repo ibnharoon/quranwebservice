@@ -5,60 +5,70 @@
     <meta charset="UTF-8">
     <title>Quran App</title>
 
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.css">
     <link rel="stylesheet" href="css/quranApp.css">
-    <link rel="stylesheet" href="css/quranApp-theme.css">
     <script src="js/lib/jquery-1.11.1.js"></script>
     <script src="js/lib/angular.js"></script>
     <script src="js/lib/angular-animate.js"></script>
     <script src="js/lib/angular-touch.js"></script>
     <script src="js/quranApp.js"></script>
-    <script src="js/data/page.js"></script>
+    <script src="js/data/surah.js"></script>
     <script src="js/directives/image.js"></script>
     <script src="js/controllers/pageController.js"></script>
 </head>
 
 <body ng-controller="pageController">
 
-<div class="leaflet" ng-repeat="page in pages" ng-hide="!isCurrentPage($index)" ng-style="{ 'width' : (dimension.lnavwidth + dimension.width + dimension.rnavwidth), 'height' : (dimension.height + dimension.topoutline + dimension.bottomoutline) }">
-    <div class="top-bar" ng-style="{ 'width' : (dimension.lnavwidth + dimension.width + dimension.rnavwidth), 'height' : dimension.lnavwidth }">
+<div class="leaflet" ng-repeat="page in pages" ng-hide="!isCurrentPage($index)"
+     ng-style="{ 'width' : (dimension.lnavwidth + dimension.width + dimension.rnavwidth), 'height' : (dimension.height + dimension.topoutline + dimension.bottomoutline) }">
+    <div class="top-bar"
+         ng-style="{ 'width' : (dimension.lnavwidth + dimension.width + dimension.rnavwidth), 'height' : dimension.lnavwidth }">
         <!-- top left corner -->
-        <div ng-class="currentPage % 2 ? 'top-left-corner-even' : 'top-left-corner-odd'" ng-style="{ 'width' : dimension.lnavwidth, 'height' : dimension.lnavwidth }">
+        <div ng-class="currentPage % 2 ? 'top-left-corner-even' : 'top-left-corner-odd'"
+             ng-style="{ 'width' : dimension.lnavwidth, 'height' : dimension.lnavwidth }">
         </div>
 
         <!-- top page outline -->
         <div class="top-outline" ng-style="{ 'width' : dimension.width, 'height' : dimension.bottomoutline}">
         </div>
 
-        <div ng-class="currentPage % 2 ? 'top-right-corner-even' : 'top-right-corner-odd'" ng-style="{ 'width': dimension.rnavwidth, 'height' : dimension.rnavwidth }">
+        <div ng-class="currentPage % 2 ? 'top-right-corner-even' : 'top-right-corner-odd'"
+             ng-style="{ 'width': dimension.rnavwidth, 'height' : dimension.rnavwidth }">
 
         </div>
     </div>
 
     <div class="middle-bar" ng-swipe-left="prevPage()" ng-swipe-right="nextPage()">
         <!-- previous is actually next page in RTL language -->
-        <div ng-class="currentPage % 2 ? 'middle-navigation-even' : 'middle-navigation-odd'" ng-style="{ 'width' : dimension.lnavwidth, 'height' : dimension.height}" ng-click="nextPage()"></div>
+        <div ng-class="currentPage % 2 ? 'middle-navigation-even' : 'middle-navigation-odd'"
+             ng-style="{ 'width' : dimension.lnavwidth, 'height' : dimension.height}" ng-click="nextPage()"></div>
 
         <div class="pcontent" ng-style="{'width' : dimension.width, 'height' : dimension.height }">
-            <img ng-style="{ 'width' : dimension.width, 'height' : dimension.height}" ng-src="{{page.image}}"/>
+            <img ng-style="{ 'width' : dimension.width, 'height' : dimension.height}" ng-src="{{ page.image }}"/>
         </div>
 
         <!-- next is actually previous page in RTL language -->
-        <div ng-class="currentPage % 2 ? 'right-navigation-even' : 'right-navigation-odd'" ng-style="{ 'width' : dimension.rnavwidth, 'height' : dimension.height}" ng-click="prevPage()"></div>
+        <div ng-class="currentPage % 2 ? 'right-navigation-even' : 'right-navigation-odd'"
+             ng-style="{ 'width' : dimension.rnavwidth, 'height' : dimension.height}" ng-click="prevPage()"></div>
     </div>
 
     <div class="bottom-bar">
         <!-- bottom left corner -->
-        <div ng-class="currentPage % 2 ? 'bottom-left-corner-even' : 'bottom-left-corner-odd'" ng-style="{ 'width': dimension.lnavwidth, 'height' : dimension.lnavwidth }">
+        <div ng-class="currentPage % 2 ? 'bottom-left-corner-even' : 'bottom-left-corner-odd'"
+             ng-style="{ 'width': dimension.lnavwidth, 'height' : dimension.lnavwidth }">
 
         </div>
 
         <!-- bottom page outline -->
         <div class="bottom-outline" ng-style="{ 'width' : dimension.width, 'height' : dimension.bottomoutline}">
-            <span class="page-number" ng-style="{'width' : dimension.width, 'height' : dimension.bottomoutline }">{{ currentPage }}</span>
+            <select class="surah-number-input" dir="rtl" ng-style="{'width' : dimension.width/3, 'height' : 15 }" ng-model="currentSurah.surahNumber" required ng-options='surah.surahNumber as surah.arabic for surah in surahs'></select>
+            <select class="page-number-input" dir="rtl" ng-style="{'width' : dimension.width/3, 'height' : 15 }" ng-model="currentPage" required ng-options='pN.pageNumber as pN.pageIndex for pN in pageRange'></select>
         </div>
 
         <!-- bottom right corner -->
-        <div ng-class="currentPage % 2 ? 'bottom-right-corner-even' : 'bottom-right-corner-odd'" ng-style="{ 'width': dimension.rnavwidth, 'height' : dimension.rnavwidth }">
+        <div ng-class="currentPage % 2 ? 'bottom-right-corner-even' : 'bottom-right-corner-odd'"
+             ng-style="{ 'width': dimension.rnavwidth, 'height' : dimension.bottomoutline }">
 
         </div>
     </div>

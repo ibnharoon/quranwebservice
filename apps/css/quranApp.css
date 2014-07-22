@@ -62,10 +62,12 @@ body {
 .top-left-corner-odd {
     float: left;
     background-image: url('/apps/images/top-left-corner-odd.png');
+    cursor: pointer;
 }
 .top-left-corner-even {
     float: left;
     background-image: url('/apps/images/top-left-corner-even.png');
+    cursor: pointer;
 }
 .top-right-corner-odd {
     background-image: url('/apps/images/top-right-corner-odd.png');
@@ -99,4 +101,31 @@ body {
     display: block;
     position: relative;
     bottom: 10px;
+}
+.page-number-input {
+    display: inline;
+    position: relative;
+    bottom: 15px;
+    text-align: right;
+    border: 0px;
+    font-size: 10px;
+    float: left;
+}
+.surah-number-input {
+    display: inline;
+    position: relative;
+    bottom: 15px;
+    text-align: right;
+    border: 0px;
+    font-size: 10px;
+    float: left;
+}
+.juz-number-input {
+    display: inline;
+    position: relative;
+    bottom: 15px;
+    text-align: center;
+    border: 0px;
+    font-size: 10px;
+    float: right;
 }
