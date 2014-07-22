@@ -111,6 +111,7 @@ body {
     font-size: 10px;
     float: left;
     background-color: #ffffff;
+    -webkit-appearance: none;
 }
 .surah-number-input {
     display: inline;
@@ -121,6 +122,7 @@ body {
     font-size: 10px;
     float: left;
     background-color: #ffffff;
+    -webkit-appearance: none;
 }
 .juz-number-input {
     display: inline;
