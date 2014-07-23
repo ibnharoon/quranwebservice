@@ -4,30 +4,17 @@ var slidingWindowSize = 6;
 var activeWindowOffset = 2;
 var imagePerPage = 1;
 
-quranApp.controller("pageController", function pageController($scope, surahData) {
+quranApp.controller("pageController", function pageController($scope, surahData, pageData) {
     // image dimension 138240 x 223632;
     $scope.currentPage = 1;
-    $scope.surahName = 'al-fatihah';
     $scope.juzNumber = 1;
     $scope.activeWindow = activeWindowOffset;
     $scope.pages = [];
     $scope.surahs = surahData;
-    $scope.currentSurah = {'surahNumber' : 1, 'arabic' : 'الفاتحة'};
-    $scope.$watch('currentPage', function(newValue, oldValue) {
-        console.log("old value: " + oldValue + ", new value: " + newValue);
-        if ( oldValue != newValue ) {
-            $scope.updatePages();
-        }
-    });
-    var arNum = ['۰', '۱', '۲', '۳', '٤', '۵', '٦', '۷', '۸', '۹'];
-    $scope.pageRange = [];
-    for (var pN = minPage; pN <= maxPage; pN++) {
-        var arPN = pN.toString().replace(/[0-9]/g, function(w){
-            return arNum[+w]
-        });
-        $scope.pageRange.push({ 'pageNumber': pN, 'arPageNumber' : arPN } );
-    }
-    console.log("number of pages: " + $scope.pageRange.length);
+    $scope.currentSurahNumber = surahData[0];
+    $scope.currentSurah = 1;
+    $scope.pageRange = pageData;
+    $scope.currentPageNumber = pageData[0];
 
     function refreshImageCache() {
         console.log("this page: " + $scope.currentPage);
@@ -83,6 +70,8 @@ quranApp.controller("pageController", function pageController($scope, surahData)
             if ( $scope.currentPage < (slidingWindowSize - activeWindowOffset) || ($scope.currentPage > (maxPage - activeWindowOffset - 1)) ) {
                 noRefresh = true;
             }
+            $scope.currentPageNumber = $scope.pageRange[$scope.currentPage - 1];
+            updateCurrentSurah();
         } else {
             return;
         }
@@ -109,6 +98,8 @@ quranApp.controller("pageController", function pageController($scope, surahData)
             if ( $scope.currentPage > (maxPage - activeWindowOffset) || $scope.currentPage < (slidingWindowSize - activeWindowOffset + 1)) {
                 noRefresh = true;
             }
+            $scope.currentPageNumber = $scope.pageRange[$scope.currentPage - 1];
+            updateCurrentSurah();
         } else {
             return;
         }
@@ -132,10 +123,23 @@ quranApp.controller("pageController", function pageController($scope, surahData)
     };
 
     $scope.updatePages = function() {
-        console.log("updating pages");
+        console.log("updating pages new page: " + $scope.currentPageNumber['pageNumber'] + ", old page: " + $scope.currentPage + 
+        ", new surah: " + $scope.currentSurahNumber['surahNumber'] + ", old surah: " + $scope.currentSurah);
+        $scope.currentPage = $scope.currentPageNumber['pageNumber'];
+
+        if ( $scope.currentSurahNumber['surahNumber'] != $scope.currentSurah ) {
+            $scope.currentSurahNumber = $scope.surahs[$scope.currentSurahNumber.surahNumber-1];
+            $scope.currentPage = $scope.currentSurahNumber.startPage;
+            $scope.currentPageNumber = $scope.pageRange[$scope.currentSurahNumber.startPage - 1];
+            console.log("surah change: " + $scope.currentSurahNumber.surahNumber + ", start page: " + $scope.currentSurahNumber.startPage);
+        }
+
+        updateCurrentSurah();
+
         // add pages from right to left
         if ($scope.currentPage > (slidingWindowSize - activeWindowOffset) && $scope.currentPage < (maxPage - activeWindowOffset)) {
             startPage = $scope.currentPage - activeWindowOffset - 1;
+            $scope.activeWindow = 2;
         } else if ($scope.currentPage <= (slidingWindowSize + activeWindowOffset)) {
             startPage = 1;
             $scope.activeWindow = slidingWindowSize - $scope.currentPage;
@@ -143,9 +147,11 @@ quranApp.controller("pageController", function pageController($scope, surahData)
             startPage = maxPage - slidingWindowSize + 1;
             $scope.activeWindow = maxPage - $scope.currentPage;
         }
+
         endPage = startPage + slidingWindowSize - 1;
         console.log("current page: " + $scope.currentPage + ", active window: " + $scope.activeWindow + ", start page: " + startPage + ", endpage: " + endPage);
 
+        $scope.pages = [];
         for (var i = startPage; i <= endPage; i++) {
             for (var j = 0; j < imagePerPage; j++) {
                 console.log("adding page: " + (i + j));
@@ -156,6 +162,20 @@ quranApp.controller("pageController", function pageController($scope, surahData)
             }
         }
     };
+
+    function updateCurrentSurah() {
+        var tCurrentSurah = $scope.currentSurahNumber;
+        for ( var surahIdx = $scope.surahs.length - 1; surahIdx >= 0; surahIdx-- ) {
+            if ( $scope.currentPage >= $scope.surahs[surahIdx].startPage ) {
+                tCurrentSurah = $scope.surahs[surahIdx];
+                break;
+            }
+        }
+
+        if ( tCurrentSurah.surahNumber != $scope.currentSurahNumber.surahNumber ) {
+            $scope.currentSurahNumber = tCurrentSurah;
+        }
+    }
 
     $scope.updatePages();
 });

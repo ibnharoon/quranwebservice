@@ -14,6 +14,7 @@
     <script src="js/lib/angular-touch.js"></script>
     <script src="js/quranApp.js"></script>
     <script src="js/data/surah.js"></script>
+    <script src="js/data/page.js"></script>
     <script src="js/directives/image.js"></script>
     <script src="js/controllers/pageController.js"></script>
 </head>
@@ -62,8 +63,8 @@
 
         <!-- bottom page outline -->
         <div class="bottom-outline" ng-style="{ 'width' : dimension.width, 'height' : dimension.bottomoutline}">
-            <select class="surah-number-input" dir="rtl" ng-style="{'width' : dimension.width/3, 'height' : 15 }" ng-model="currentSurah.surahNumber" required ng-options='surah.surahNumber as surah.arabic for surah in surahs'></select>
-            <select class="page-number-input" dir="rtl" ng-style="{'width' : dimension.width/3, 'height' : 15 }" ng-model="currentPage" required ng-options='pN.pageNumber as pN.arPageNumber for pN in pageRange'></select>
+            <select class="surah-number-input" dir="rtl" ng-style="{'width' : dimension.width/3, 'height' : 15 }" ng-model="currentSurahNumber.surahNumber" required ng-options='surah.surahNumber as surah.arabic for surah in surahs' ng-change="updatePages()"></select>
+            <select class="page-number-input" dir="rtl" ng-style="{'width' : dimension.width/3, 'height' : 15 }" ng-model="currentPageNumber.pageNumber" required ng-options='pN.pageNumber as pN.arPageNumber for pN in pageRange' ng-change="updatePages()"></select>
         </div>
 
         <!-- bottom right corner -->
