@@ -71,7 +71,8 @@ quranApp.controller("pageController", function pageController($scope, surahData,
         var noRefresh = false;
         if ( $scope.currentPage > 1 ) {
             $scope.currentPage = $scope.currentPage - imagePerPage;
-            $scope.beginOfPageReached = ($scope.currentPage == minPage);
+            $scope.beginOfPageReached = $scope.currentPage === minPage;
+            $scope.endOfPageReached = ($scope.currentPage == maxPage);
             if ( $scope.currentPage < (slidingWindowSize - activeWindowOffset) || ($scope.currentPage > (maxPage - activeWindowOffset - 1)) ) {
                 noRefresh = true;
             }
@@ -99,6 +100,7 @@ quranApp.controller("pageController", function pageController($scope, surahData,
         console.log("current page: " + $scope.currentPage + ", active window: " + $scope.activeWindow);
         if ( $scope.currentPage < maxPage ) {
             $scope.currentPage = $scope.currentPage + imagePerPage;
+            $scope.beginOfPageReached = $scope.currentPage === minPage;
             $scope.endOfPageReached = ($scope.currentPage == maxPage);
             if ( $scope.currentPage > (maxPage - activeWindowOffset) || $scope.currentPage < (slidingWindowSize - activeWindowOffset + 1)) {
                 noRefresh = true;
@@ -140,8 +142,8 @@ quranApp.controller("pageController", function pageController($scope, surahData,
         if (newPageNumber.pageNumber != oldPageNumber.pageNumber) {
             $scope.currentPageNumber = $scope.pageRange[newPageNumber.pageNumber - 1];
             $scope.currentPage = $scope.currentPageNumber.pageNumber;
-            $scope.endOfPageReached = $scope.currentPage === maxPage;
             $scope.beginOfPageReached = $scope.currentPage === minPage;
+            $scope.endOfPageReached = ($scope.currentPage == maxPage);
             updateCurrentSurah();
             updatePages();
         }
@@ -160,8 +162,8 @@ quranApp.controller("pageController", function pageController($scope, surahData,
             $scope.currentSurah = $scope.currentSurahNumber.surahNumber;
             $scope.currentPageNumber = $scope.pageRange[$scope.currentSurahNumber.startPage - 1];
             $scope.currentPage = $scope.currentSurahNumber.startPage;
-            $scope.endOfPageReached = $scope.currentPage === maxPage;
             $scope.beginOfPageReached = $scope.currentPage === minPage;
+            $scope.endOfPageReached = ($scope.currentPage == maxPage);
             updatePages();
         }
     };
