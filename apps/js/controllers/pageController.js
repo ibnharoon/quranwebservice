@@ -6,7 +6,7 @@ var slidingWindowSize = 6;
 var activeWindowOffset = 2;
 var imagePerPage = 1;
 
-quranApp.controller("pageController", function pageController($scope, surahData, pageData) {
+quranApp.controller("pageController", function pageController($scope, surahData, pageData, localStorageService) {
     // image dimension 138240 x 223632;
     $scope.currentPage = 1;
     $scope.juzNumber = 1;
@@ -14,8 +14,17 @@ quranApp.controller("pageController", function pageController($scope, surahData,
     $scope.activeWindow = activeWindowOffset;
     $scope.pages = [];
     $scope.surahs = surahData;
-    $scope.currentSurahNumber = $scope.surahs[$scope.currentSurah - 1];
     $scope.pageRange = pageData;
+
+    if ( localStorageService.isSupported ) {
+        var tcurrentPage = localStorageService.get("currentPage");
+        if ( tcurrentPage != null ) {
+            $scope.currentPage = tcurrentPage;
+        }
+    }
+
+    updateCurrentSurah();
+
     $scope.currentPageNumber = $scope.pageRange[$scope.currentPage - 1];
     $scope.endOfPageReached = $scope.currentPage === maxPage;
     $scope.beginOfPageReached = $scope.currentPage === minPage;
@@ -71,6 +80,9 @@ quranApp.controller("pageController", function pageController($scope, surahData,
         var noRefresh = false;
         if ( $scope.currentPage > 1 ) {
             $scope.currentPage = $scope.currentPage - imagePerPage;
+            if ( localStorageService.isSupported ) {
+                localStorageService.set("currentPage", $scope.currentPage);
+            }
             $scope.beginOfPageReached = $scope.currentPage === minPage;
             $scope.endOfPageReached = ($scope.currentPage == maxPage);
             if ( $scope.currentPage < (slidingWindowSize - activeWindowOffset) || ($scope.currentPage > (maxPage - activeWindowOffset - 1)) ) {
@@ -100,6 +112,9 @@ quranApp.controller("pageController", function pageController($scope, surahData,
         console.log("current page: " + $scope.currentPage + ", active window: " + $scope.activeWindow);
         if ( $scope.currentPage < maxPage ) {
             $scope.currentPage = $scope.currentPage + imagePerPage;
+            if ( localStorageService.isSupported ) {
+                localStorageService.set("currentPage", $scope.currentPage);
+            }
             $scope.beginOfPageReached = $scope.currentPage === minPage;
             $scope.endOfPageReached = ($scope.currentPage == maxPage);
             if ( $scope.currentPage > (maxPage - activeWindowOffset) || $scope.currentPage < (slidingWindowSize - activeWindowOffset + 1)) {
@@ -142,6 +157,9 @@ quranApp.controller("pageController", function pageController($scope, surahData,
         if (newPageNumber.pageNumber != oldPageNumber.pageNumber) {
             $scope.currentPageNumber = $scope.pageRange[newPageNumber.pageNumber - 1];
             $scope.currentPage = $scope.currentPageNumber.pageNumber;
+            if ( localStorageService.isSupported ) {
+                localStorageService.set("currentPage", $scope.currentPage);
+            }
             $scope.beginOfPageReached = $scope.currentPage === minPage;
             $scope.endOfPageReached = ($scope.currentPage == maxPage);
             updateCurrentSurah();
@@ -162,6 +180,9 @@ quranApp.controller("pageController", function pageController($scope, surahData,
             $scope.currentSurah = $scope.currentSurahNumber.surahNumber;
             $scope.currentPageNumber = $scope.pageRange[$scope.currentSurahNumber.startPage - 1];
             $scope.currentPage = $scope.currentSurahNumber.startPage;
+            if ( localStorageService.isSupported ) {
+                localStorageService.set("currentPage", $scope.currentPage);
+            }
             $scope.beginOfPageReached = $scope.currentPage === minPage;
             $scope.endOfPageReached = ($scope.currentPage == maxPage);
             updatePages();
@@ -169,11 +190,10 @@ quranApp.controller("pageController", function pageController($scope, surahData,
     };
 
     function updateCurrentSurah() {
-        console.log("current surah before update surah: " + $scope.currentSurahNumber.surahNumber +
-            ", start page: " + $scope.currentSurahNumber.startPage + ", arabic: " + $scope.currentSurahNumber.arabic);
         for ( var surahIdx = $scope.surahs.length - 1; surahIdx >= 0; surahIdx-- ) {
             if ( $scope.currentPage >= $scope.surahs[surahIdx].startPage ) {
                 $scope.currentSurahNumber = $scope.surahs[surahIdx];
+                $scope.currentSurah = $scope.currentSurahNumber.surahNumber;
                 console.log("surah page found: " + $scope.currentSurahNumber.startPage + ", index: " + surahIdx);
                 break;
             }
