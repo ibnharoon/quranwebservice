@@ -9,9 +9,12 @@
     <link rel="stylesheet" href="css/bootstrap-theme.css">
     <link rel="stylesheet" href="css/quranApp.css">
     <script src="js/lib/jquery-1.11.1.js"></script>
-    <script src="js/lib/angular.js"></script>
-    <script src="js/lib/angular-animate.js"></script>
-    <script src="js/lib/angular-touch.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-touch.min.js"></script>
+    <!--script src="js/lib/angular.js"></script-->
+    <!--script src="js/lib/angular-animate.js"></script-->
+    <!--script src="js/lib/angular-touch.js"></script-->
     <script src="js/quranApp.js"></script>
     <script src="js/data/surah.js"></script>
     <script src="js/data/page.js"></script>
@@ -66,12 +69,12 @@
         <!-- bottom page outline -->
         <div class="bottom-outline" ng-style="{ 'width' : dimension.width, 'height' : dimension.bottomoutline }">
             <select class="surah-number-input" dir="rtl" ng-style="{ 'width' : dimension.width/3, 'height' : 15 }"
-                    ng-model="currentSurahNumber.surahNumber" required
-                    ng-options='surah.surahNumber as surah.arabic for surah in surahs' ng-change="updatePages()">
+                    ng-model="currentSurahNumber" required
+                    ng-options='surah as surah.arabic for surah in surahs' ng-change="updateSurah(currentSurahNumber)">
             </select>
             <select class="page-number-input" dir="rtl" ng-style="{ 'width' : dimension.width/3, 'height' : 15 }"
-                    ng-model="currentPageNumber.pageNumber" required
-                    ng-options='pN.pageNumber as pN.arPageNumber for pN in pageRange' ng-change="updatePages()">
+                    ng-model="currentPageNumber" required
+                    ng-options='pN as pN.arPageNumber for pN in pageRange' ng-change="updatePage(currentPageNumber)">
             </select>
         </div>
 
