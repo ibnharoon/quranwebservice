@@ -36,41 +36,48 @@
 
         <div ng-class="currentPage % 2 ? 'top-right-corner-even' : 'top-right-corner-odd'"
              ng-style="{ 'width': dimension.rnavwidth, 'height' : dimension.rnavwidth }">
-
         </div>
     </div>
 
     <div class="middle-bar" ng-swipe-left="prevPage()" ng-swipe-right="nextPage()">
         <!-- previous is actually next page in RTL language -->
         <div ng-class="currentPage % 2 ? 'middle-navigation-even' : 'middle-navigation-odd'"
-             ng-style="{ 'width' : dimension.lnavwidth, 'height' : dimension.height}" ng-click="nextPage()"></div>
+             ng-style="{ 'width' : dimension.lnavwidth, 'height' : dimension.height }"
+             ng-disabled="endOfPageReached" ng-click="endOfPageReached || nextPage()">
+        </div>
 
         <div class="pcontent" ng-style="{'width' : dimension.width, 'height' : dimension.height }">
-            <img ng-style="{ 'width' : dimension.width, 'height' : dimension.height}" ng-src="{{ page.image }}"/>
+            <img ng-style="{ 'width' : dimension.width, 'height' : dimension.height }" ng-src="{{ page.image }}"/>
         </div>
 
         <!-- next is actually previous page in RTL language -->
         <div ng-class="currentPage % 2 ? 'right-navigation-even' : 'right-navigation-odd'"
-             ng-style="{ 'width' : dimension.rnavwidth, 'height' : dimension.height}" ng-click="prevPage()"></div>
+             ng-style="{ 'width' : dimension.rnavwidth, 'height' : dimension.height }"
+             ng-disabled="beginOfPageReached" ng-click="beginOfPageReached || prevPage()">
+        </div>
     </div>
 
     <div class="bottom-bar">
         <!-- bottom left corner -->
         <div ng-class="currentPage % 2 ? 'bottom-left-corner-even' : 'bottom-left-corner-odd'"
              ng-style="{ 'width': dimension.lnavwidth, 'height' : dimension.lnavwidth }">
-
         </div>
 
         <!-- bottom page outline -->
-        <div class="bottom-outline" ng-style="{ 'width' : dimension.width, 'height' : dimension.bottomoutline}">
-            <select class="surah-number-input" dir="rtl" ng-style="{'width' : dimension.width/3, 'height' : 15 }" ng-model="currentSurahNumber.surahNumber" required ng-options='surah.surahNumber as surah.arabic for surah in surahs' ng-change="updatePages()"></select>
-            <select class="page-number-input" dir="rtl" ng-style="{'width' : dimension.width/3, 'height' : 15 }" ng-model="currentPageNumber.pageNumber" required ng-options='pN.pageNumber as pN.arPageNumber for pN in pageRange' ng-change="updatePages()"></select>
+        <div class="bottom-outline" ng-style="{ 'width' : dimension.width, 'height' : dimension.bottomoutline }">
+            <select class="surah-number-input" dir="rtl" ng-style="{ 'width' : dimension.width/3, 'height' : 15 }"
+                    ng-model="currentSurahNumber.surahNumber" required
+                    ng-options='surah.surahNumber as surah.arabic for surah in surahs' ng-change="updatePages()">
+            </select>
+            <select class="page-number-input" dir="rtl" ng-style="{ 'width' : dimension.width/3, 'height' : 15 }"
+                    ng-model="currentPageNumber.pageNumber" required
+                    ng-options='pN.pageNumber as pN.arPageNumber for pN in pageRange' ng-change="updatePages()">
+            </select>
         </div>
 
         <!-- bottom right corner -->
         <div ng-class="currentPage % 2 ? 'bottom-right-corner-even' : 'bottom-right-corner-odd'"
              ng-style="{ 'width': dimension.rnavwidth, 'height' : dimension.bottomoutline }">
-
         </div>
     </div>
 </div>
