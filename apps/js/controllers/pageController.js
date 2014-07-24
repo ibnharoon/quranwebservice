@@ -15,15 +15,28 @@ quranApp.controller("pageController", function pageController($scope, surahData,
     $scope.pages = [];
     $scope.surahs = surahData;
     $scope.pageRange = pageData;
+    $scope.currentSurahNumber = $scope.surahs[minSurah - 1];
 
     if ( localStorageService.isSupported ) {
-        var tcurrentPage = localStorageService.get("currentPage");
+        var tcurrentPage = Number(localStorageService.get("currentPage"));
         if ( tcurrentPage != null ) {
-            $scope.currentPage = tcurrentPage;
+            if ( tcurrentPage >= minPage && tcurrentPage <= maxPage ) {
+                console.log("stored page is OK: " + tcurrentPage);
+                $scope.currentPage = tcurrentPage;
+            } else {
+                console.log("stored page is corrupted: " + tcurrentPage);
+                $scope.currentPage = minPage;
+            }
+        } else {
+            console.log("no stored page");
+            $scope.currentPage = minPage;
         }
+        localStorageService.set("currentPage", $scope.currentPage);
     }
 
-    updateCurrentSurah();
+    updateCurrentSurah($scope.currentPage);
+
+    updatePages();
 
     $scope.currentPageNumber = $scope.pageRange[$scope.currentPage - 1];
     $scope.endOfPageReached = $scope.currentPage === maxPage;
@@ -74,9 +87,16 @@ quranApp.controller("pageController", function pageController($scope, surahData,
     }
     console.log("width: " + $scope.dimension['width'] + ", height: " + $scope.dimension['height']);
 
-    $scope.prevPage = function () {
+    $scope.prevPage = function (prevPageNumber) {
         $scope.direction = 'right';
-        console.log("current page: " + $scope.currentPage + ", active window: " + $scope.activeWindow);
+        console.log("prev page prev page: " + prevPageNumber + ", current page: " + $scope.currentPage + ", active window: " + $scope.activeWindow);
+        if ( $scope.currentPage < minPage || $scope.currentPage > maxPage ) {
+            console.log("current page is corrupted: " + $scope.currentPage);
+            $scope.currentPage = minPage;
+            if ( localStorageService.isSupported ) {
+                localStorageService.set("currentPage", $scope.currentPage);
+            }
+        }
         var noRefresh = false;
         if ( $scope.currentPage > 1 ) {
             $scope.currentPage = $scope.currentPage - imagePerPage;
@@ -89,7 +109,7 @@ quranApp.controller("pageController", function pageController($scope, surahData,
                 noRefresh = true;
             }
             $scope.currentPageNumber = $scope.pageRange[$scope.currentPage - 1];
-            updateCurrentSurah();
+            updateCurrentSurah($scope.currentPage);
         } else {
             return;
         }
@@ -106,10 +126,17 @@ quranApp.controller("pageController", function pageController($scope, surahData,
         }
     };
 
-    $scope.nextPage = function () {
+    $scope.nextPage = function (prevPageNumber) {
         $scope.direction = 'left';
         var noRefresh = false;
-        console.log("current page: " + $scope.currentPage + ", active window: " + $scope.activeWindow);
+        console.log("next page prev page: " + prevPageNumber + ", current page: " + $scope.currentPage + ", active window: " + $scope.activeWindow);
+        if ( $scope.currentPage < minPage || $scope.currentPage > maxPage ) {
+            console.log("current page is corrupted: " + $scope.currentPage);
+            $scope.currentPage = minPage;
+            if ( localStorageService.isSupported ) {
+                localStorageService.set("currentPage", $scope.currentPage);
+            }
+        }
         if ( $scope.currentPage < maxPage ) {
             $scope.currentPage = $scope.currentPage + imagePerPage;
             if ( localStorageService.isSupported ) {
@@ -121,7 +148,7 @@ quranApp.controller("pageController", function pageController($scope, surahData,
                 noRefresh = true;
             }
             $scope.currentPageNumber = $scope.pageRange[$scope.currentPage - 1];
-            updateCurrentSurah();
+            updateCurrentSurah($scope.currentPage);
         } else {
             return;
         }
@@ -162,14 +189,14 @@ quranApp.controller("pageController", function pageController($scope, surahData,
             }
             $scope.beginOfPageReached = $scope.currentPage === minPage;
             $scope.endOfPageReached = ($scope.currentPage == maxPage);
-            updateCurrentSurah();
+            updateCurrentSurah($scope.currentPage);
             updatePages();
         }
     };
 
     $scope.updateSurah = function(newSurah) {
         var oldSurah = $scope.currentSurahNumber;
-        console.log("new surah: " + newSurah.surahNumber + ", old surah: " + oldSurah.surahNumber);
+        console.log("update surah new surah: " + newSurah.surahNumber + ", old surah: " + oldSurah.surahNumber);
         if (newSurah.surahNumber < minSurah || newSurah.surahNumber > maxSurah ) {
             console.log("ignoring surah not in range");
             return;
@@ -189,14 +216,21 @@ quranApp.controller("pageController", function pageController($scope, surahData,
         }
     };
 
-    function updateCurrentSurah() {
+    function updateCurrentSurah(newCurrentPage) {
+        console.log("update current surah new current page: " + newCurrentPage + ", old current page: " + $scope.currentPage);
+        console.log("update current surah old current surah: " + $scope.currentSurahNumber.surahNumber);
+        var newCurrentSurah = $scope.surahs[$scope.currentSurahNumber - 1];
         for ( var surahIdx = $scope.surahs.length - 1; surahIdx >= 0; surahIdx-- ) {
             if ( $scope.currentPage >= $scope.surahs[surahIdx].startPage ) {
-                $scope.currentSurahNumber = $scope.surahs[surahIdx];
-                $scope.currentSurah = $scope.currentSurahNumber.surahNumber;
-                console.log("surah page found: " + $scope.currentSurahNumber.startPage + ", index: " + surahIdx);
+                newCurrentSurah = $scope.surahs[surahIdx];
+                console.log("surah page found: " + newCurrentSurah.startPage + ", index: " + surahIdx);
                 break;
             }
+        }
+
+        if ( newCurrentSurah.surahNumber != $scope.currentSurahNumber.surahNumber ) {
+            $scope.currentSurahNumber = $scope.surahs[newCurrentSurah.surahNumber - 1];
+            $scope.currentSurah = $scope.currentSurahNumber.surahNumber;
         }
 
         console.log("current surah after update surah: " + $scope.currentSurahNumber.surahNumber +
@@ -220,7 +254,7 @@ quranApp.controller("pageController", function pageController($scope, surahData,
         }
 
         endPage = startPage + slidingWindowSize - 1;
-        console.log("current page: " + $scope.currentPage + ", active window: " + $scope.activeWindow + ", start page: " + startPage + ", endpage: " + endPage);
+        console.log("update pages current page: " + $scope.currentPage + ", active window: " + $scope.activeWindow + ", start page: " + startPage + ", endpage: " + endPage);
 
         $scope.pages = [];
         for (var i = startPage; i <= endPage; i++) {
@@ -233,6 +267,4 @@ quranApp.controller("pageController", function pageController($scope, surahData,
             }
         }
     }
-
-    updatePages();
 });

@@ -40,11 +40,11 @@
         </div>
     </div>
 
-    <div class="middle-bar" ng-swipe-left="prevPage()" ng-swipe-right="nextPage()">
+    <div class="middle-bar" ng-swipe-left="prevPage(currentPage)" ng-swipe-right="nextPage(currentPage)">
         <!-- previous is actually next page in RTL language -->
         <div ng-class="currentPage % 2 ? 'middle-navigation-even' : 'middle-navigation-odd'"
              ng-style="{ 'width' : dimension.lnavwidth, 'height' : dimension.height }"
-             ng-disabled="endOfPageReached" ng-click="endOfPageReached || nextPage()">
+             ng-disabled="endOfPageReached" ng-click="endOfPageReached || nextPage(currentPage)">
         </div>
 
         <div class="pcontent" ng-style="{'width' : dimension.width, 'height' : dimension.height }">
@@ -54,7 +54,7 @@
         <!-- next is actually previous page in RTL language -->
         <div ng-class="currentPage % 2 ? 'right-navigation-even' : 'right-navigation-odd'"
              ng-style="{ 'width' : dimension.rnavwidth, 'height' : dimension.height }"
-             ng-disabled="beginOfPageReached" ng-click="beginOfPageReached || prevPage()">
+             ng-disabled="beginOfPageReached" ng-click="beginOfPageReached || prevPage(currentPage)">
         </div>
     </div>
 
@@ -66,11 +66,11 @@
 
         <!-- bottom page outline -->
         <div class="bottom-outline" ng-style="{ 'width' : dimension.width, 'height' : dimension.bottomoutline }">
-            <select class="surah-number-input" dir="rtl" ng-style="{ 'width' : dimension.width/3, 'height' : 15 }"
+            <select class="surah-number-input" dir="rtl" ng-style="{ 'width' : dimension.width/3, 'height' : 30 }"
                     ng-model="currentSurahNumber" required
                     ng-options='surah as surah.arabic for surah in surahs' ng-change="updateSurah(currentSurahNumber)">
             </select>
-            <select class="page-number-input" dir="rtl" ng-style="{ 'width' : dimension.width/3, 'height' : 15 }"
+            <select class="page-number-input" dir="rtl" ng-style="{ 'width' : dimension.width/3, 'height' : 30 }"
                     ng-model="currentPageNumber" required
                     ng-options='pN as pN.arPageNumber for pN in pageRange' ng-change="updatePage(currentPageNumber)">
             </select>
