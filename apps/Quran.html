@@ -40,11 +40,11 @@
         </div>
     </div>
 
-    <div class="middle-bar" ng-swipe-left="prevPage(currentPage)" ng-swipe-right="nextPage(currentPage)">
+    <div class="middle-bar" ng-swipe-left="prevPage()" ng-swipe-right="nextPage()">
         <!-- previous is actually next page in RTL language -->
         <div ng-class="currentPage % 2 ? 'middle-navigation-even' : 'middle-navigation-odd'"
              ng-style="{ 'width' : dimension.lnavwidth, 'height' : dimension.height }"
-             ng-disabled="endOfPageReached" ng-click="endOfPageReached || nextPage(currentPage)">
+             ng-disabled="endOfPageReached" ng-click="endOfPageReached || nextPage()">
         </div>
 
         <div class="pcontent" ng-style="{'width' : dimension.width, 'height' : dimension.height }">
@@ -54,7 +54,7 @@
         <!-- next is actually previous page in RTL language -->
         <div ng-class="currentPage % 2 ? 'right-navigation-even' : 'right-navigation-odd'"
              ng-style="{ 'width' : dimension.rnavwidth, 'height' : dimension.height }"
-             ng-disabled="beginOfPageReached" ng-click="beginOfPageReached || prevPage(currentPage)">
+             ng-disabled="beginOfPageReached" ng-click="beginOfPageReached || prevPage()">
         </div>
     </div>
 

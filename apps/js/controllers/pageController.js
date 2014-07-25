@@ -87,16 +87,9 @@ quranApp.controller("pageController", function pageController($scope, surahData,
     }
     console.log("width: " + $scope.dimension['width'] + ", height: " + $scope.dimension['height']);
 
-    $scope.prevPage = function (prevPageNumber) {
+    $scope.prevPage = function () {
         $scope.direction = 'right';
-        console.log("prev page prev page: " + prevPageNumber + ", current page: " + $scope.currentPage + ", active window: " + $scope.activeWindow);
-        if ( $scope.currentPage < minPage || $scope.currentPage > maxPage ) {
-            console.log("current page is corrupted: " + $scope.currentPage);
-            $scope.currentPage = minPage;
-            if ( localStorageService.isSupported ) {
-                localStorageService.set("currentPage", $scope.currentPage);
-            }
-        }
+        console.log("current page: " + $scope.currentPage + ", active window: " + $scope.activeWindow);
         var noRefresh = false;
         if ( $scope.currentPage > 1 ) {
             $scope.currentPage = $scope.currentPage - imagePerPage;
@@ -126,17 +119,10 @@ quranApp.controller("pageController", function pageController($scope, surahData,
         }
     };
 
-    $scope.nextPage = function (prevPageNumber) {
+    $scope.nextPage = function () {
         $scope.direction = 'left';
         var noRefresh = false;
-        console.log("next page prev page: " + prevPageNumber + ", current page: " + $scope.currentPage + ", active window: " + $scope.activeWindow);
-        if ( $scope.currentPage < minPage || $scope.currentPage > maxPage ) {
-            console.log("current page is corrupted: " + $scope.currentPage);
-            $scope.currentPage = minPage;
-            if ( localStorageService.isSupported ) {
-                localStorageService.set("currentPage", $scope.currentPage);
-            }
-        }
+        console.log("current page: " + $scope.currentPage + ", active window: " + $scope.activeWindow);
         if ( $scope.currentPage < maxPage ) {
             $scope.currentPage = $scope.currentPage + imagePerPage;
             if ( localStorageService.isSupported ) {
