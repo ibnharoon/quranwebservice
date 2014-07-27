@@ -13,19 +13,19 @@ public class QuranPage extends PageObject {
     final private Logger logger = Logger.getLogger(QuranPage.class);
 
     // left navigation button
-    @FindBy(xpath = "/html/body/div[@contains(class,'leaflet') and not(contains(@style,'display:none'))]/div[2]/div[1]")
+    @FindBy(xpath = "//div[@id='prev-true'")
     private WebElement _leftButton;
 
     // right navigation button
-    @FindBy(xpath = "/html/body/div[@contains(class,'leaflet') and not(contains(@style,'display:none'))]/div[2]/div[3]")
+    @FindBy(xpath = "//div[@id='next-true'")
     private WebElement _rightButton;
 
     // surah selector
-    @FindBy(xpath = "/html/body/div[@contains(class,'leaflet') and not(contains(@style,'display:none'))]/div[3]/div[2]/select[1]")
+    @FindBy(xpath = "//select[@id='select-surah-true'")
     private WebElement _surahSelector;
 
     // page selector
-    @FindBy(xpath = "/html/body/div[@contains(class,'leaflet') and not(contains(@style,'display:none'))]/div[3]/div[2]/select[2]")
+    @FindBy(xpath = "//select[@id='select-page-true'")
     private WebElement _pageSelector;
 
     /**
