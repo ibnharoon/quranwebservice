@@ -18,11 +18,22 @@
     <script src="js/data/page.js"></script>
     <script src="js/directives/image.js"></script>
     <script src="js/controllers/pageController.js"></script>
+
+    <!-- google analytics -->
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-1277701-5', 'auto');
+        ga('send', 'pageview');
+    </script>
 </head>
 
 <body ng-controller="pageController">
 
-<div class="leaflet" ng-repeat="page in pages" ng-hide="!isCurrentPage($index)"
+<div class="leaflet" ng-repeat="page in pages" ng-hide="!isCurrentPage($index) || ! isSVGSupported()"
      ng-style="{ 'width' : (dimension.lnavwidth + dimension.width + dimension.rnavwidth), 'height' : (dimension.height + dimension.topoutline + dimension.bottomoutline) }">
     <div class="top-bar"
          ng-style="{ 'width' : (dimension.lnavwidth + dimension.width + dimension.rnavwidth), 'height' : dimension.lnavwidth }">
