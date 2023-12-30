@@ -3,7 +3,7 @@
   <metadata>
 &#169; 2014, All Rights Reserved - Bustamam Harun
 </metadata>
-  <g class="page-content" id="page226" transform="translate(0.000000,223632.000000) scale(7.200000,-7.200000)" fill="#000000" stroke="none">
+  <g class="page-content" id="page226" transform="translate(0.000000,223632.000000) scale(7.200000,-7.200000)" fill="#000000" stroke="none" inkscape:groupmode="layer" inkscape:label="content">
     <path d="M6677 30550 c-37 -30 -51 -84 -30 -123 l16 -31 -57 -52 c-54 -50 -73 -83 -40 -70 9 3 19 6 24 6 5 0 36 22 70 49 34 28 67 48 74 45 7 -3 20 4 29 14 15 16 15 21 2 46 -8 16 -15 44 -15 63 0 40 -15 73 -34 73 -7 0 -25 -9 -39 -20z"/>
     <path d="M6832 30547 c-11 -12 -28 -39 -37 -59 -14 -35 -14 -38 6 -57 l22 -20 -29 -24 c-16 -14 -45 -39 -64 -56 -19 -17 -38 -31 -42 -31 -14 0 -8 -40 5 -40 15 0 94 49 147 90 26 20 40 25 55 19 32 -12 44 -10 54 10 8 15 6 25 -11 46 -13 16 -22 44 -24 73 -1 26 -3 53 -3 60 -2 21 -56 14 -79 -11z"/>
     <path d="M11255 30393 c-22 -15 -69 -41 -105 -59 -103 -50 -131 -78 -121 -122 2 -7 237 120 269 144 35 27 44 64 15 63 -10 0 -36 -12 -58 -26z"/>
@@ -1037,7 +1037,7 @@
     <path d="M13800 919 c-129 -52 -170 -76 -170 -100 0 -25 50 -15 165 31 157 62 161 65 168 89 11 44 -16 40 -163 -20z"/>
     <path d="M15160 895 c-36 -12 -105 -40 -154 -62 -74 -32 -91 -43 -97 -66 -6 -23 -4 -27 13 -27 25 0 177 59 260 101 40 20 58 35 58 49 0 29 -10 30 -80 5z"/>
   </g>
-  <g class="glyph-group" style="display: none;">
+  <g class="glyph-group" style="display: none;" inkscape:groupmode="layer" inkscape:label="glyph">
     <rect class="glyph" height="10873" id="11:1:38:1" width="16705" x="114984" y="5400"/>
     <rect class="glyph" height="7849" id="11:1:38:2" width="17929" x="96480" y="4968"/>
     <rect class="glyph" height="9073" id="11:1:38:3" width="19801" x="75456" y="4392"/>
